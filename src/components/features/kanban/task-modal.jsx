@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   X,
   Calendar,
@@ -118,7 +119,7 @@ export default function TaskModal({ task, isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl p-0 h-[90vh] flex flex-col gap-0 overflow-hidden border-none shadow-2xl">
+      <DialogContent className="w-full max-w-4xl p-0 h-[90vh] flex flex-col gap-0 overflow-hidden border-none shadow-2xl">
         <DialogHeader className="p-6 border-b bg-white shrink-0">
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1">
