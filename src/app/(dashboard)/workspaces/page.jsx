@@ -75,75 +75,77 @@ export default function WorkspacesPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10 animate-in fade-in duration-700">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Your Workspaces</h1>
-          <p className="text-slate-500 mt-1">Select a workspace to start managing your projects.</p>
+        <div className="flex flex-col gap-1">
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight">Your Workspaces</h1>
+          <p className="text-slate-500 font-medium font-medium">Select or create a container for your team and projects.</p>
         </div>
         
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700 h-10 px-4">
+            <Button className="bg-blue-600 hover:bg-blue-700 h-11 px-6 rounded-2xl shadow-lg shadow-blue-500/20 font-bold transition-all hover:scale-105 active:scale-95 text-xs uppercase tracking-wider">
               <Plus className="mr-2 h-4 w-4" /> New Workspace
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="rounded-[2rem] p-8 border-none shadow-2xl">
             <DialogHeader>
-              <DialogTitle>Create Workspace</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-2xl font-black text-slate-900 tracking-tight">Create Workspace</DialogTitle>
+              <DialogDescription className="text-slate-500 font-medium pt-2">
                 Workspaces are where your team collaborates. You can invite members later.
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Workspace Name</Label>
+            <div className="space-y-6 py-8">
+              <div className="space-y-3">
+                <Label htmlFor="name" className="text-sm font-bold text-slate-700 ml-1">Workspace Name</Label>
                 <Input
                   id="name"
                   placeholder="e.g. Marketing Team, Engineering"
                   value={newWorkspaceName}
                   onChange={(e) => setNewWorkspaceName(e.target.value)}
+                  className="h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white transition-all px-4 font-medium"
                 />
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
+            <DialogFooter className="gap-3">
+              <Button variant="ghost" onClick={() => setIsCreateOpen(false)} className="rounded-xl font-bold h-12 px-6 hover:bg-slate-50">Cancel</Button>
               <Button 
                 onClick={() => createWorkspace.mutate(newWorkspaceName)}
                 disabled={!newWorkspaceName || createWorkspace.isPending}
+                className="bg-blue-600 hover:bg-blue-700 h-12 px-8 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20"
               >
-                {createWorkspace.isPending ? "Creating..." : "Create Workspace"}
+                {createWorkspace.isPending ? "Creating..." : "Launch Workspace"}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {workspaces?.map((workspace) => (
-          <Card key={workspace.id} className="group hover:shadow-lg transition-all border-slate-200 border-2 hover:border-blue-200 overflow-hidden">
-            <CardHeader className="pb-4">
-              <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors font-bold text-lg">
+          <Card key={workspace.id} className="group border-none shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[2rem] bg-white overflow-hidden">
+            <CardHeader className="p-8 pb-4">
+              <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-500 font-black text-xl shadow-inner border border-blue-100/50">
                 {workspace.name.charAt(0).toUpperCase()}
               </div>
-              <CardTitle className="group-hover:text-blue-600 transition-colors">
+              <CardTitle className="text-2xl font-black text-slate-900 tracking-tight mb-2 group-hover:text-blue-600 transition-colors">
                 {workspace.name}
               </CardTitle>
-              <CardDescription className="line-clamp-2">
-                Last updated {new Date(workspace.updated_at).toLocaleDateString()}
+              <CardDescription className="font-medium text-slate-400">
+                Active since {new Date(workspace.created_at).toLocaleDateString()}
               </CardDescription>
             </CardHeader>
-            <CardFooter className="pt-0 flex justify-between items-center border-t border-slate-50 mt-4 bg-slate-50/50 p-4">
-              <div className="flex -space-x-2">
-                {[1, 2].map((i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center">
-                    <Users className="h-3 w-3 text-slate-400" />
+            <CardFooter className="pt-6 flex justify-between items-center border-t border-slate-50 mt-4 bg-slate-50/30 p-8">
+              <div className="flex -space-x-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="w-9 h-9 rounded-xl border-4 border-white bg-slate-100 flex items-center justify-center shadow-sm group-hover:translate-x-1 transition-transform">
+                    <Users className="h-4 w-4 text-slate-400" />
                   </div>
                 ))}
               </div>
-              <Button asChild variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="ghost" className="h-10 px-6 rounded-xl font-black text-[10px] uppercase tracking-widest text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
                 <Link href={`/workspaces/${workspace.id}`}>
-                  Open <ArrowRight className="ml-2 h-4 w-4" />
+                  Enter Workspace <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </CardFooter>
@@ -151,12 +153,14 @@ export default function WorkspacesPage() {
         ))}
 
         {workspaces?.length === 0 && (
-          <div className="col-span-full py-20 text-center bg-white rounded-2xl border-2 border-dashed border-slate-200">
-            <Layout className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-slate-900">No workspaces yet</h3>
-            <p className="text-slate-500 mb-6">Create your first workspace to start managing projects.</p>
-            <Button onClick={() => setIsCreateOpen(true)} className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="mr-2 h-4 w-4" /> Create My First Workspace
+          <div className="col-span-full py-24 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-200 shadow-sm">
+             <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Layout className="h-8 w-8 text-slate-300" />
+             </div>
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Create your first control center</h3>
+            <p className="text-slate-500 mb-8 max-w-md mx-auto font-medium">Workspaces are the top-level containers where your team's magic happens. Give it a name and start building.</p>
+            <Button onClick={() => setIsCreateOpen(true)} className="bg-blue-600 hover:bg-blue-700 h-12 px-8 rounded-2xl shadow-xl shadow-blue-500/20 font-black text-xs uppercase tracking-widest transition-all hover:scale-105">
+               Build My First Workspace
             </Button>
           </div>
         )}
